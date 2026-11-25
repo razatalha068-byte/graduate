@@ -1,0 +1,239 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: #100719;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    perspective: 1600px;
+}
+
+/* Purple and golden background */
+
+.ambient-glow {
+    position: fixed;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            #68406f,
+            transparent 60%
+        ),
+        radial-gradient(
+            circle at 10% 20%,
+            #8b426c,
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #100719,
+            #29152f,
+            #100719
+        );
+
+    z-index: -1;
+}
+
+/* Main 3D stage */
+
+.stage {
+    width: min(100vw, 177.6vh, 1648px);
+    aspect-ratio: 1648 / 928;
+    position: relative;
+    perspective: 1600px;
+    transform-style: preserve-3d;
+}
+
+/* Original picture */
+
+.poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+    border-radius: 5px;
+
+    transform-style: preserve-3d;
+
+    animation: entrance 1.8s ease-out;
+    box-shadow:
+        0 0 25px rgba(255, 198, 120, .35),
+        0 30px 100px rgba(0, 0, 0, .7);
+}
+
+.main-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+/* Moving golden light */
+
+.light-effect {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background: linear-gradient(
+        110deg,
+        transparent 30%,
+        rgba(255, 255, 255, .17) 45%,
+        transparent 60%
+    );
+
+    background-size: 250% 100%;
+
+    animation: lightMove 7s linear infinite;
+}
+
+/* Sparkles */
+
+.sparkle {
+    position: absolute;
+    color: #fff1b7;
+    text-shadow: 0 0 12px gold;
+    pointer-events: none;
+
+    animation: sparkle 2.5s ease-in-out infinite;
+}
+
+/* Invisible clickable button positioned over
+   the button in the original picture */
+
+.celebrate-button {
+    position: absolute;
+
+    left: 62.2%;
+    top: 77%;
+    width: 23%;
+    height: 10%;
+
+    border: none;
+    border-radius: 50px;
+
+    background: transparent;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.celebrate-button:hover {
+    box-shadow:
+        0 0 15px rgba(255, 216, 135, .8),
+        inset 0 0 15px rgba(255, 255, 255, .2);
+}
+
+/* Success message */
+
+.message {
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+
+    color: #ffe2a2;
+    font-family: Georgia, serif;
+    font-size: 22px;
+    text-align: center;
+
+    padding: 12px 25px;
+    border: 1px solid #d9ad68;
+    border-radius: 30px;
+
+    background: rgba(40, 20, 45, .9);
+
+    transition: .6s;
+    opacity: 0;
+    z-index: 20;
+    white-space: nowrap;
+}
+
+.message.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Confetti */
+
+.confetti {
+    position: fixed;
+    top: -30px;
+    z-index: 30;
+    pointer-events: none;
+
+    animation: fall linear forwards;
+}
+
+@keyframes entrance {
+    from {
+        opacity: 0;
+        transform: scale(.85) rotateY(-12deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotateY(0);
+    }
+}
+
+@keyframes lightMove {
+    from {
+        background-position: 150% 0;
+    }
+
+    to {
+        background-position: -150% 0;
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: .2;
+        transform: scale(.6);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.4);
+    }
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(900deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+
+    body {
+        overflow: hidden;
+    }
+
+    .stage {
+        width: 100vw;
+    }
+
+    .poster {
+        border-radius: 0;
+    }
+
+    .message {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}
+
